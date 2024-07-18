@@ -1,18 +1,18 @@
 import axios from "axios";
 const instance = axios.create({
-  baseURL: "https://localhost:8120/api/",
+  baseURL: "http://localhost:8101/api/",
   timeout: 10000,
   headers: {},
 });
 
 // 添加响应拦截器
-axios.interceptors.response.use(
+instance.interceptors.response.use(
   function (response) {
     // 2xx 范围内的状态码都会触发该函数。
     // 对响应数据做点什么
     const data = response.data;
     if (data.code === 0) {
-      return response.data;
+      return data.data;
     }
     console.error("request error", data);
     return response.data;
@@ -23,4 +23,5 @@ axios.interceptors.response.use(
     return Promise.reject(error);
   }
 );
+
 export default instance;
