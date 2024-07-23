@@ -20,7 +20,7 @@ const props = withDefaults(defineProps<Props>(), {
       <a-list-item>
         <a-card hoverable>
           <template #cover>
-            <img alt="example" :src="item.url" />
+            <img alt="example" :src="item.urlImg" />
           </template>
           <a-card-meta :title="item.title" />
         </a-card>

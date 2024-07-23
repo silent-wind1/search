@@ -37,8 +37,31 @@ const route = useRoute(); //拿到当前路由参数，或者说查询条件？
 const activeKey = route.params.category; //动态路由同步回标签
 const initSearchParams = {
   text: "",
-  pageSize: 10,
   pageNumber: 1,
+  pageSize: 10,
+};
+
+/**
+ * 加载数据
+ * @param params
+ */
+const loadData = (params: any) => {
+  const query = {
+    ...params,
+    searchText: params.text,
+  };
+
+  myAxios.post("/post/list/page/vo", query).then((res: any) => {
+    postList.value = res.records;
+  });
+
+  myAxios.post("/picture/list/page/vo", query).then((res: any) => {
+    pictureList.value = res.records;
+  });
+
+  myAxios.post("/user/list/page/vo", query).then((res: any) => {
+    userList.value = res.records;
+  });
 };
 
 const searchParams = ref(initSearchParams);
@@ -49,10 +72,15 @@ watchEffect(() => {
   } as any;
 });
 
-const onSearch = (searchValue: string) => {
+// 首次请求
+loadData(initSearchParams);
+
+const onSearch = () => {
   router.push({
     query: searchParams.value,
   });
+  // 根据条件查询
+  loadData(searchParams.value);
 };
 
 const onTabChange = (key: string) => {
@@ -61,21 +89,4 @@ const onTabChange = (key: string) => {
     query: searchParams.value,
   });
 };
-
-myAxios.post("/post/list/page/vo", {}).then((res: any) => {
-  postList.value = res.records;
-});
-myAxios.post("/post/list/page/vo", {}).then((res: any) => {
-  console.log(res);
-  pictureList.value = [
-    {
-      url: "http://",
-      title: "yefeng",
-    },
-  ];
-});
-
-myAxios.post("/user/list/page/vo", {}).then((res: any) => {
-  userList.value = res.records;
-});
 </script>
