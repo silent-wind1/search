@@ -44,5 +44,4 @@ public class PictureController {
         Page<Picture> picturePage = pictureService.searchPicture(searchText, current, size);
         return ResultUtils.success(picturePage);
     }
-
 }
