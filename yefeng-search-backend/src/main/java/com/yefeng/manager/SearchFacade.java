@@ -81,7 +81,7 @@ public class SearchFacade {
                 searchVO.setUserList(userVOPage.getRecords());
                 searchVO.setPostList(postVOPage.getRecords());
                 searchVO.setPictureList(picturePage.getRecords());
-                return ResultUtils.success(searchVO);
+                return ResultUtils.success(searchVO).getData();
             } catch (Exception e) {
                 log.error("查询异常", e);
                 throw new BusinessException(ErrorCode.SYSTEM_ERROR, "查询异常");
@@ -107,7 +107,7 @@ public class SearchFacade {
                     break;
                 default:
             }
-            return ResultUtils.success(searchVO);
+            return ResultUtils.success(searchVO).getData();
         }
     }
 }
