@@ -28,6 +28,7 @@ import UserList from "@/components/UserList.vue";
 import PictureList from "@/components/PictureList.vue";
 import { useRoute, useRouter } from "vue-router";
 import myAxios from "@/plugins/Axios";
+import { message } from "ant-design-vue";
 
 let postList = ref([]);
 let pictureList = ref([]);
@@ -36,31 +37,47 @@ const router = useRouter();
 const route = useRoute(); //拿到当前路由参数，或者说查询条件？
 const activeKey = route.params.category; //动态路由同步回标签
 const initSearchParams = {
+  type: activeKey,
   text: "",
   pageNumber: 1,
   pageSize: 10,
 };
-
+const searchText = ref(route.query.text || "");
 /**
  * 加载数据
  * @param params
  */
 const loadData = (params: any) => {
+  let { type } = params;
+  if (!type) {
+    message.error("类别为空");
+    return;
+  }
   const query = {
     ...params,
     searchText: params.text,
   };
 
-  myAxios.post("/post/list/page/vo", query).then((res: any) => {
-    postList.value = res.records;
-  });
+  // myAxios.post("/post/list/page/vo", query).then((res: any) => {
+  //   postList.value = res.records;
+  // });
+  //
+  // myAxios.post("/picture/list/page/vo", query).then((res: any) => {
+  //   pictureList.value = res.records;
+  // });
+  //
+  // myAxios.post("/user/list/page/vo", query).then((res: any) => {
+  //   userList.value = res.records;
+  // });
 
-  myAxios.post("/picture/list/page/vo", query).then((res: any) => {
-    pictureList.value = res.records;
-  });
-
-  myAxios.post("/user/list/page/vo", query).then((res: any) => {
-    userList.value = res.records;
+  myAxios.post("/search/all", query).then((res: any) => {
+    if (type === "post") {
+      postList.value = res.postList;
+    } else if (type === "user") {
+      userList.value = res.userList;
+    } else if (type === "picture") {
+      pictureList.value = res.pictureList;
+    }
   });
 };
 
@@ -69,15 +86,20 @@ watchEffect(() => {
   searchParams.value = {
     ...initSearchParams,
     text: route.query.text,
+    type: route.params.category,
   } as any;
+  loadData(searchParams.value);
 });
 
 // 首次请求
 loadData(initSearchParams);
 
-const onSearch = () => {
+const onSearch = (value: string) => {
   router.push({
-    query: searchParams.value,
+    query: {
+      ...searchParams.value,
+      text: value,
+    },
   });
   // 根据条件查询
   loadData(searchParams.value);
