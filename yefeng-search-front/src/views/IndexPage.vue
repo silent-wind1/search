@@ -43,6 +43,7 @@ const initSearchParams = {
   pageSize: 10,
 };
 const searchText = ref(route.query.text || "");
+
 /**
  * 加载数据
  * @param params
@@ -50,8 +51,9 @@ const searchText = ref(route.query.text || "");
 const loadData = (params: any) => {
   let { type } = params;
   if (!type) {
-    message.error("类别为空");
-    return;
+    router.push({
+      path: `/post`,
+    });
   }
   const query = {
     ...params,
@@ -92,7 +94,7 @@ watchEffect(() => {
 });
 
 // 首次请求
-loadData(initSearchParams);
+// loadData(initSearchParams);
 
 const onSearch = (value: string) => {
   router.push({
