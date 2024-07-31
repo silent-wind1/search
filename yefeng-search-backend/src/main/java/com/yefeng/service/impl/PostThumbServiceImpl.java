@@ -10,10 +10,11 @@ import com.yefeng.model.entity.PostThumb;
 import com.yefeng.model.entity.User;
 import com.yefeng.service.PostService;
 import com.yefeng.service.PostThumbService;
-import javax.annotation.Resource;
 import org.springframework.aop.framework.AopContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.annotation.Resource;
 
 /**
  * 帖子点赞服务实现

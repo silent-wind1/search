@@ -4,8 +4,6 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.yefeng.model.entity.Picture;
 
-import java.util.List;
-
 
 /**
  * @Author: 叶枫

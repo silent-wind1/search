@@ -4,13 +4,17 @@ import cn.hutool.http.HttpRequest;
 import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
+import com.yefeng.esdao.PostEsDao;
+import com.yefeng.model.dto.post.PostEsDTO;
 import com.yefeng.model.entity.Post;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import javax.annotation.Resource;
+import java.util.*;
 
 /**
  * 主类测试
@@ -18,8 +22,10 @@ import java.util.Map;
  * @author <a href="https://github.com/liyupi">程序员鱼皮</a>
  * @from <a href="https://yupi.icu">编程导航知识星球</a>
  */
-@SpringBootTest
+@SpringBootTest()
 class MainApplicationTests {
+    @Resource
+    private PostEsDao postEsDao;
 
     @Test
     void contextLoads() {
@@ -50,5 +56,38 @@ class MainApplicationTests {
             postList.add(post);
         }
         System.out.println(postList);
+    }
+
+    @Test
+    void testAdd() {
+        PostEsDTO postEsDTO = new PostEsDTO();
+        postEsDTO.setId(1L);
+        postEsDTO.setTitle("鱼皮是狗");
+        postEsDTO.setContent("鱼皮的知识星球：https://yupi.icu，直播带大家做项目");
+        postEsDTO.setTags(Arrays.asList("java", "python"));
+        postEsDTO.setUserId(1L);
+        postEsDTO.setCreateTime(new Date());
+        postEsDTO.setUpdateTime(new Date());
+        postEsDTO.setIsDelete(0);
+        postEsDao.save(postEsDTO);
+        System.out.println(postEsDTO.getId());
+    }
+
+    @Test
+    void testSelect() {
+        System.out.println(postEsDao.count());
+        //分页查询
+        Page<PostEsDTO> PostPage = postEsDao.findAll(PageRequest.of(0, 5, Sort.by("createTime")));
+        List<PostEsDTO> postList = PostPage.getContent();
+        System.out.println(postList);
+        // 根据 Id 查询
+        Optional<PostEsDTO> byId = postEsDao.findById(1L);
+        System.out.println(byId);
+    }
+
+    @Test
+    void testFindByTitle() {
+        List<PostEsDTO> postEsDTOS = postEsDao.findByTitle("鱼皮");
+        System.out.println(postEsDTOS);
     }
 }

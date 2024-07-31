@@ -19,5 +19,8 @@ public class SearchRequest extends PageRequest implements Serializable {
      */
     private String type;
 
+    private long pageNum;
+    private long pageSize;
+
     private static final long serialVersionUID = 1L;
 }

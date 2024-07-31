@@ -13,10 +13,11 @@ import com.yefeng.model.entity.PostFavour;
 import com.yefeng.model.entity.User;
 import com.yefeng.service.PostFavourService;
 import com.yefeng.service.PostService;
-import javax.annotation.Resource;
 import org.springframework.aop.framework.AopContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.annotation.Resource;
 
 /**
  * 帖子收藏服务实现

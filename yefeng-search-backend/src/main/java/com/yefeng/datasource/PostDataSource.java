@@ -27,8 +27,6 @@ public class PostDataSource implements DataSource<PostVO> {
         postQueryRequest.setPageSize(pageSize);
         ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = servletRequestAttributes.getRequest();
-        Page<PostVO> postVOPage = postService.listPostVOByPage(postQueryRequest, request);
-        return postVOPage;
+        return postService.listPostVOByPage(postQueryRequest, request);
     }
-
 }

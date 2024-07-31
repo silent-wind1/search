@@ -1,7 +1,7 @@
 package com.yefeng.service;
 
-import com.yefeng.model.entity.PostThumb;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.yefeng.model.entity.PostThumb;
 import com.yefeng.model.entity.User;
 
 /**

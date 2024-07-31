@@ -1,18 +1,22 @@
 package com.yefeng.datasource;
 
-import cn.hutool.json.JSONUtil;
+import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.yefeng.common.ErrorCode;
-import com.yefeng.exception.BusinessException;
 import com.yefeng.model.entity.Picture;
+import com.yefeng.service.PictureService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import javax.annotation.Resource;
+import java.io.*;
 import java.util.List;
 import java.util.Map;
 
 @Service
+@Slf4j
 public class PictureDataSource implements DataSource<Picture> {
+    @Resource
+    private PictureService pictureService;
 
     @Override
     public Page<Picture> doSearch(String searchText, long pageNum, long pageSize) {
@@ -44,6 +48,44 @@ public class PictureDataSource implements DataSource<Picture> {
 //        Page<Picture> picturePage = new Page<>(pageNum, pageSize);
 //        picturePage.setRecords(pictures);
 //        return picturePage;
-        return null;
+        Page<Picture> page = pictureService.searchPicture(searchText, pageNum, pageSize);
+        List<Picture> records = page.getRecords();
+        if (!CollUtil.isEmpty(records)) {
+            return page;
+        }
+        try {
+            getPicture(pageNum);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        page = pictureService.searchPicture(searchText, pageNum, pageSize);
+        return page;
+    }
+
+    private void getPicture(long pageNum) throws IOException, InterruptedException {
+        // 调用 Process 类执行 Python 命令
+        // 当前idea打开的窗口
+        String projectPath = System.getProperty("user.dir");
+        String projectDir = projectPath + "/src/main/java/com/yefeng/script";
+        log.info("command Path: {}", projectDir);
+        String pythonCommand = "python 4k.py --page " + pageNum;
+        log.info("python command: {}", pythonCommand);
+        // 空格拆分
+        ProcessBuilder processBuilder = new ProcessBuilder(pythonCommand.split(" "));
+        processBuilder.directory(new File(projectDir));
+        Map<String, String> environment = processBuilder.environment();
+        System.out.println(environment);
+
+        Process process = processBuilder.start();
+
+        // 读取命令输出
+        InputStream inputStream = process.getInputStream();
+        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+        String line;
+        while ((line = reader.readLine()) != null) {
+            System.out.println(line);
+        }
+        int exitCode = process.waitFor();
+        System.out.println("命令执行结束，退出码" + exitCode);
     }
 }

@@ -1,9 +1,10 @@
 package com.yefeng.model.dto.user;
 
 import com.yefeng.common.PageRequest;
-import java.io.Serializable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import java.io.Serializable;
 
 /**
  * 用户查询请求

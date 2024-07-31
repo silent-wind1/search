@@ -2,7 +2,6 @@ package com.yefeng.manager;
 
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.yefeng.common.BaseResponse;
 import com.yefeng.common.ErrorCode;
 import com.yefeng.common.ResultUtils;
 import com.yefeng.exception.BusinessException;
@@ -20,7 +19,6 @@ import com.yefeng.service.PostService;
 import com.yefeng.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.annotation.Resource;
@@ -49,6 +47,8 @@ public class SearchFacade {
         SearchTypeEnum searchTypeEnum = SearchTypeEnum.getEnumByValue(type);
         ThrowUtils.throwIf(StringUtils.isBlank(type), ErrorCode.PARAMS_ERROR);
         String searchText = searchRequest.getSearchText();
+        long pageNum = searchRequest.getPageNum();
+        long pageSize  = searchRequest.getPageSize();
 
         // 搜索出所有数据
         if (searchTypeEnum == null) {
@@ -67,7 +67,7 @@ public class SearchFacade {
             });
 
             CompletableFuture<Page<Picture>> pictureTask = CompletableFuture.supplyAsync(() -> {
-                Page<Picture> picturePage = pictureService.searchPicture(searchText, 1, 10);
+                Page<Picture> picturePage = pictureService.searchPicture(searchText, pageNum, pageSize);
                 return picturePage;
             });
 
@@ -102,7 +102,7 @@ public class SearchFacade {
                     searchVO.setUserList(userVOPage.getRecords());
                     break;
                 case PICTURE:
-                    Page<Picture> picturePage = pictureService.searchPicture(searchText, 1, 10);
+                    Page<Picture> picturePage = pictureService.searchPicture(searchText, pageNum, pageSize);
                     searchVO.setPictureList(picturePage.getRecords());
                     break;
                 default:

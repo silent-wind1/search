@@ -10,22 +10,11 @@ import com.yefeng.config.WxOpenConfig;
 import com.yefeng.constant.UserConstant;
 import com.yefeng.exception.BusinessException;
 import com.yefeng.exception.ThrowUtils;
-import com.yefeng.model.dto.user.UserAddRequest;
-import com.yefeng.model.dto.user.UserLoginRequest;
-import com.yefeng.model.dto.user.UserQueryRequest;
-import com.yefeng.model.dto.user.UserRegisterRequest;
-import com.yefeng.model.dto.user.UserUpdateMyRequest;
-import com.yefeng.model.dto.user.UserUpdateRequest;
+import com.yefeng.model.dto.user.*;
 import com.yefeng.model.entity.User;
 import com.yefeng.model.vo.LoginUserVO;
 import com.yefeng.model.vo.UserVO;
 import com.yefeng.service.UserService;
-
-import java.util.List;
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.bean.WxOAuth2UserInfo;
 import me.chanjar.weixin.common.bean.oauth2.WxOAuth2AccessToken;
@@ -33,12 +22,12 @@ import me.chanjar.weixin.mp.api.WxMpService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.util.DigestUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 import static com.yefeng.service.impl.UserServiceImpl.SALT;
 

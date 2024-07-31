@@ -1,15 +1,16 @@
 package com.yefeng.job.once;
 
+import cn.hutool.core.collection.CollUtil;
 import com.yefeng.esdao.PostEsDao;
 import com.yefeng.model.dto.post.PostEsDTO;
 import com.yefeng.model.entity.Post;
 import com.yefeng.service.PostService;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.CommandLineRunner;
+
+import javax.annotation.Resource;
 import java.util.List;
 import java.util.stream.Collectors;
-import javax.annotation.Resource;
-import lombok.extern.slf4j.Slf4j;
-import cn.hutool.core.collection.CollUtil;
-import org.springframework.boot.CommandLineRunner;
 
 /**
  * 全量同步帖子到 es

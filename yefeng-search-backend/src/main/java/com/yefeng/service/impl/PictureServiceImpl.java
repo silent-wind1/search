@@ -6,10 +6,11 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yefeng.mapper.PictureMapper;
 import com.yefeng.model.entity.Picture;
 import com.yefeng.service.PictureService;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
+@Slf4j
 @Service
 public class PictureServiceImpl extends ServiceImpl<PictureMapper, Picture> implements PictureService {
 //    @Override
@@ -47,6 +48,11 @@ public class PictureServiceImpl extends ServiceImpl<PictureMapper, Picture> impl
     @Override
     public Page<Picture> searchPicture(String searchText, long pageNum, long pageSize) {
         Page<Picture> current = new Page<>(pageNum, pageSize);
-        return query().like("title", searchText).page(current);
+        if(StringUtils.isEmpty(searchText)) {
+            log.info("pageNum: {}, pageSize: {}", pageNum, pageSize);
+            log.info("current: {}", current);
+            return this.query().page(current);
+        }
+        return null;
     }
 }

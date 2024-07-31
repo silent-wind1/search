@@ -7,9 +7,10 @@ import com.yefeng.model.dto.user.UserQueryRequest;
 import com.yefeng.model.entity.User;
 import com.yefeng.model.vo.LoginUserVO;
 import com.yefeng.model.vo.UserVO;
-import java.util.List;
-import javax.servlet.http.HttpServletRequest;
 import me.chanjar.weixin.common.bean.WxOAuth2UserInfo;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * 用户服务
