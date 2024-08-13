@@ -27,43 +27,43 @@ class MainApplicationTests {
     @Resource
     private PostEsDao postEsDao;
 
-    @Test
-    void contextLoads() {
-        // 1. 获取数据
-        String json = "{\"current\": 1, \"pageSize\": 8, \"sortField\": \"createTime\", \"sortOrder\": \"descend\", \"category\": \"文章\",\"reviewStatus\": 1}";
-        String url = "https://www.code-nav.cn/api/post/search/page/vo";
-        String result = HttpRequest
-                .post(url)
-                .body(json)
-                .execute()
-                .body();
-        // 2. json 转对象
-        Map map = JSONUtil.toBean(result, Map.class);
-        System.out.println(map.get("data"));
-        JSONObject data = (JSONObject) map.get("data");
-        JSONArray records = (JSONArray) data.get("records");
-        List<Post> postList = new ArrayList<>();
-        for (Object record : records) {
-            JSONObject tempRecord = (JSONObject) record;
-            Post post = new Post();
-            // todo 取值过程中,需要判空
-            post.setTitle(tempRecord.getStr("title"));
-            post.setContent(tempRecord.getStr("content"));
-            JSONArray tags = (JSONArray) tempRecord.get("tags");
-            List<String> tagList = tags.toList(String.class);
-            post.setTags(JSONUtil.toJsonStr(tagList));
-            post.setUserId(Long.valueOf(1L));
-            postList.add(post);
-        }
-        System.out.println(postList);
-    }
+//    @Test
+//    void contextLoads() {
+//        // 1. 获取数据
+//        String json = "{\"current\": 1, \"pageSize\": 8, \"sortField\": \"createTime\", \"sortOrder\": \"descend\", \"category\": \"文章\",\"reviewStatus\": 1}";
+//        String url = "https://www.code-nav.cn/api/post/search/page/vo";
+//        String result = HttpRequest
+//                .post(url)
+//                .body(json)
+//                .execute()
+//                .body();
+//        // 2. json 转对象
+//        Map map = JSONUtil.toBean(result, Map.class);
+//        System.out.println(map.get("data"));
+//        JSONObject data = (JSONObject) map.get("data");
+//        JSONArray records = (JSONArray) data.get("records");
+//        List<Post> postList = new ArrayList<>();
+//        for (Object record : records) {
+//            JSONObject tempRecord = (JSONObject) record;
+//            Post post = new Post();
+//            // todo 取值过程中,需要判空
+//            post.setTitle(tempRecord.getStr("title"));
+//            post.setContent(tempRecord.getStr("content"));
+//            JSONArray tags = (JSONArray) tempRecord.get("tags");
+//            List<String> tagList = tags.toList(String.class);
+//            post.setTags(JSONUtil.toJsonStr(tagList));
+//            post.setUserId(Long.valueOf(1L));
+//            postList.add(post);
+//        }
+//        System.out.println(postList);
+//    }
 
     @Test
     void testAdd() {
         PostEsDTO postEsDTO = new PostEsDTO();
         postEsDTO.setId(1L);
         postEsDTO.setTitle("鱼皮是狗");
-        postEsDTO.setContent("鱼皮的知识星球：https://yupi.icu，直播带大家做项目");
+        postEsDTO.setContent("鱼皮是真割韭菜");
         postEsDTO.setTags(Arrays.asList("java", "python"));
         postEsDTO.setUserId(1L);
         postEsDTO.setCreateTime(new Date());
