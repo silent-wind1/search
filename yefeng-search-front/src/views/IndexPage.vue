@@ -17,6 +17,9 @@
       <a-tab-pane key="user" tab="用户">
         <UserList :user-list="userList" />
       </a-tab-pane>
+      <a-tab-pane key="message" tab="消息">
+        <MessageList />
+      </a-tab-pane>
     </a-tabs>
   </div>
 </template>
@@ -29,6 +32,7 @@ import PictureList from "@/components/PictureList.vue";
 import { useRoute, useRouter } from "vue-router";
 import myAxios from "@/plugins/Axios";
 import { message } from "ant-design-vue";
+import MessageList from "@/components/MessageList.vue";
 
 let postList = ref([]);
 let pictureList = ref([]);
