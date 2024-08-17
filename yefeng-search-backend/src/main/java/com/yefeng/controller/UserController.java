@@ -1,5 +1,6 @@
 package com.yefeng.controller;
 
+import cn.hutool.core.util.DesensitizedUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yefeng.annotation.AuthCheck;
 import com.yefeng.common.BaseResponse;
@@ -28,6 +29,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.yefeng.service.impl.UserServiceImpl.SALT;
 
@@ -97,7 +99,7 @@ public class UserController {
      */
     @GetMapping("/login/wx_open")
     public BaseResponse<LoginUserVO> userLoginByWxOpen(HttpServletRequest request, HttpServletResponse response,
-            @RequestParam("code") String code) {
+                                                       @RequestParam("code") String code) {
         WxOAuth2AccessToken accessToken;
         try {
             WxMpService wxService = wxOpenConfig.getWxMpService();
@@ -197,7 +199,7 @@ public class UserController {
     @PostMapping("/update")
     @AuthCheck(mustRole = UserConstant.ADMIN_ROLE)
     public BaseResponse<Boolean> updateUser(@RequestBody UserUpdateRequest userUpdateRequest,
-            HttpServletRequest request) {
+                                            HttpServletRequest request) {
         if (userUpdateRequest == null || userUpdateRequest.getId() == null) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
@@ -250,11 +252,19 @@ public class UserController {
     @PostMapping("/list/page")
     @AuthCheck(mustRole = UserConstant.ADMIN_ROLE)
     public BaseResponse<Page<User>> listUserByPage(@RequestBody UserQueryRequest userQueryRequest,
-            HttpServletRequest request) {
+                                                   HttpServletRequest request) {
         long current = userQueryRequest.getCurrent();
         long size = userQueryRequest.getPageSize();
         Page<User> userPage = userService.page(new Page<>(current, size),
                 userService.getQueryWrapper(userQueryRequest));
+        List<User> map = userPage.getRecords()
+                .stream()
+                .peek(item -> item.setUserPassword(DesensitizedUtil.mobilePhone(item.getUserPassword())))
+                .collect(Collectors.toList());
+        userPage.setRecords(map);
+//        DesensitizedUtil.mobilePhone()
+//        DesensitizedUtil.fixedPhone()
+
         return ResultUtils.success(userPage);
     }
 
@@ -272,7 +282,7 @@ public class UserController {
         }
         long current = userQueryRequest.getCurrent();
         long size = userQueryRequest.getPageSize();
-        if(size  == 0) {
+        if (size == 0) {
             size = 10;
         }
         // 限制爬虫
@@ -295,7 +305,7 @@ public class UserController {
      */
     @PostMapping("/update/my")
     public BaseResponse<Boolean> updateMyUser(@RequestBody UserUpdateMyRequest userUpdateMyRequest,
-            HttpServletRequest request) {
+                                              HttpServletRequest request) {
         if (userUpdateMyRequest == null) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }

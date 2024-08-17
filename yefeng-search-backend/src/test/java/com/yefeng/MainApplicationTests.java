@@ -1,17 +1,14 @@
 package com.yefeng;
 
-import cn.hutool.http.HttpRequest;
-import cn.hutool.json.JSONArray;
-import cn.hutool.json.JSONObject;
-import cn.hutool.json.JSONUtil;
 import com.yefeng.esdao.PostEsDao;
 import com.yefeng.model.dto.post.PostEsDTO;
-import com.yefeng.model.entity.Post;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
 import java.util.*;
@@ -22,7 +19,8 @@ import java.util.*;
  * @author <a href="https://github.com/liyupi">程序员鱼皮</a>
  * @from <a href="https://yupi.icu">编程导航知识星球</a>
  */
-@SpringBootTest()
+@RunWith(SpringRunner.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class MainApplicationTests {
     @Resource
     private PostEsDao postEsDao;
