@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { withDefaults, defineProps } from "vue";
 import avatar from "../assets/ice-snake.jpg";
+import router from "@/router";
+
 interface Props {
   pictureList: any[];
 }
@@ -8,6 +10,9 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
   pictureList: () => [],
 });
+
+// eslint-disable-next-line @typescript-eslint/no-empty-function
+function toPushDetails() {}
 </script>
 
 <template>
@@ -18,7 +23,7 @@ const props = withDefaults(defineProps<Props>(), {
   >
     <template #renderItem="{ item }">
       <a-list-item>
-        <a-card hoverable>
+        <a-card hoverable @click="toPushDetails">
           <template #cover>
             <img alt="example" :src="item.urlImg" />
           </template>

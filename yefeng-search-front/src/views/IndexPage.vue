@@ -31,7 +31,6 @@ import UserList from "@/components/UserList.vue";
 import PictureList from "@/components/PictureList.vue";
 import { useRoute, useRouter } from "vue-router";
 import myAxios from "@/plugins/Axios";
-import { message } from "ant-design-vue";
 import MessageList from "@/components/MessageList.vue";
 
 let postList = ref([]);
@@ -54,7 +53,8 @@ const searchText = ref(route.query.text || "");
  */
 const loadData = (params: any) => {
   let { type } = params;
-  if (!type) {
+  if (type) {
+    console.log(type);
     router.push({
       path: `/post`,
     });
