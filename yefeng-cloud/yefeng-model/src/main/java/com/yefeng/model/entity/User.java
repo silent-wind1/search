@@ -1,4 +1,4 @@
-package com.yefeng.user.entity;
+package com.yefeng.model.entity;
 
 import lombok.Data;
 

@@ -1,4 +1,4 @@
-package com.yefeng.order.feign;
+package com.yefeng.feign.retryer;
 
 import feign.RetryableException;
 import feign.Retryer;

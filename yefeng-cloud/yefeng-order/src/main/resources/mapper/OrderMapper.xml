@@ -8,7 +8,7 @@
     </sql>
 
     <!-- 根据用户的id查询用户详情 -->
-    <select id="findOrderByOrderId" resultType="com.yefeng.order.entity.Order">
+    <select id="findOrderByOrderId" resultType="com.yefeng.model.entity.Order">
         SELECT <include refid="base_field"></include> FROM tb_order WHERE id = #{orderId}
     </select>
 

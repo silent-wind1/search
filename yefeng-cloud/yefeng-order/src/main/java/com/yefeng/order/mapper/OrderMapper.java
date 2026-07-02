@@ -1,6 +1,6 @@
 package com.yefeng.order.mapper;
 
-import com.yefeng.order.entity.Order;
+import com.yefeng.model.entity.Order;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper  // 该注解可以通过在启动类上的@MapperScan注解进行替换

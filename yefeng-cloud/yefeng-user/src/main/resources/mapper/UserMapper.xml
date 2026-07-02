@@ -3,7 +3,7 @@
 <mapper namespace="com.yefeng.user.mapper.UserMapper">
 
     <!-- 根据用户的id查询用户详情 -->
-    <select id="findUserByUserId" resultType="com.yefeng.user.entity.User">
+    <select id="findUserByUserId" resultType="com.yefeng.model.entity.User">
         SELECT * FROM tb_user WHERE id = #{userId}
     </select>
 

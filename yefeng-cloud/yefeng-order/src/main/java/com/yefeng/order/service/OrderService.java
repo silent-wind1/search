@@ -1,6 +1,6 @@
 package com.yefeng.order.service;
 
-import com.yefeng.order.entity.Order;
+import com.yefeng.model.entity.Order;
 
 public interface OrderService {
 

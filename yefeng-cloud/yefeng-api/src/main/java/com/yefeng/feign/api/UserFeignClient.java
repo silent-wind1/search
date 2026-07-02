@@ -1,6 +1,6 @@
-package com.yefeng.order.feign;
+package com.yefeng.feign.api;
 
-import com.yefeng.order.entity.User;
+import com.yefeng.model.entity.User;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

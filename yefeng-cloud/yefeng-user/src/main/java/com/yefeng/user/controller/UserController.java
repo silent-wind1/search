@@ -1,6 +1,6 @@
 package com.yefeng.user.controller;
 
-import com.yefeng.user.entity.User;
+import com.yefeng.model.entity.User;
 import com.yefeng.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;

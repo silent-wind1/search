@@ -1,6 +1,6 @@
 package com.yefeng.user.service;
 
-import com.yefeng.user.entity.User;
+import com.yefeng.model.entity.User;
 
 public interface UserService {
 

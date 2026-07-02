@@ -1,8 +1,8 @@
 package com.yefeng.order.service.impl;
 
-import com.yefeng.order.entity.Order;
-import com.yefeng.order.entity.User;
-import com.yefeng.order.feign.UserFeignClient;
+import com.yefeng.feign.api.UserFeignClient;
+import com.yefeng.model.entity.Order;
+import com.yefeng.model.entity.User;
 import com.yefeng.order.mapper.OrderMapper;
 import com.yefeng.order.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Order findOrderByOrderId(Long orderId) {
         Order order = orderMapper.findOrderByOrderId(orderId);
-        User user = userFeignClient.queryById(orderId);
+        User user = userFeignClient.queryById(order.getUserId());
         order.setUser(user);
         return order;
     }
