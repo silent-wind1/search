@@ -20,6 +20,15 @@ spring:
       nacos: # 集成nacos的负载均衡算法
         enabled: true
 
+    openfeign:
+      client:
+        config:
+          default:
+            loggerLevel: full
+            read-timeout: 2000            # 读取数据的超时时间设置为2s
+            connect-timeout: 2000        # 简历连接的超时时间设置为2s
+            retryer: com.yefeng.order.feign.FeignClientRetryer		# 配置自定义重试器
+
 # 配置mybatis的相关信息
 mybatis:
   configuration:
