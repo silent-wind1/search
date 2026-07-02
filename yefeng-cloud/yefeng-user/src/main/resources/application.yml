@@ -13,8 +13,12 @@ spring:
     nacos:
       discovery:
         server-addr: ${spring.cloud.nacos.server-addr}
-        namespace: 20220411
+        namespace: 20220411  # 这里的namespace 对应 nacos 命名空间的id
+        cluster-name: SZ # 配置服务所属集群
 
+    loadbalancer:
+      nacos:    # 集成nacos的负载均衡算法
+        enabled: true
 # 配置mybatis的相关信息
 mybatis:
   configuration:
