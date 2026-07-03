@@ -9,7 +9,7 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>yefeng-geteway</artifactId>
+    <artifactId>yefeng-common</artifactId>
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
@@ -18,28 +18,29 @@
     </properties>
 
     <dependencies>
-        <!--网关-->
+        <!-- spring boot的web开发所需要的起步依赖 -->
         <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-gateway</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
-        <!--nacos服务发现依赖-->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
         </dependency>
 
-        <!-- 负载均衡组件 -->
+        <!-- spring cloud 所提供的负载均衡器 -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-loadbalancer</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>5.8.44</version>
         </dependency>
+
     </dependencies>
 
 </project>

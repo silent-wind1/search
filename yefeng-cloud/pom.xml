@@ -23,6 +23,7 @@
         <module>yefeng-model</module>
         <module>yefeng-api</module>
         <module>yefeng-geteway</module>
+        <module>yefeng-common</module>
     </modules>
 
     <properties>

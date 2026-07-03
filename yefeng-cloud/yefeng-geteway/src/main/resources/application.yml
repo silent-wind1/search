@@ -15,3 +15,14 @@ spring:
           uri: lb://yefeng-user		    # 路由的目标地址 lb就是负载均衡，后面跟服务名称
           predicates:
             - Path=/api/user/**			    # 这个是按照路径匹配，只要以/user/开头就符合要求
+          filters:
+            - AddRequestHeader=name, yefeng
+
+        - id: yefeng-order
+          uri: lb://yefeng-order
+          predicates:
+            - Path=/api/order/**
+
+      # 网关过滤器，又叫做默认过滤器
+      default-filters:
+        - AddRequestHeader=name, fengye
