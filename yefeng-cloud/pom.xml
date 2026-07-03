@@ -22,6 +22,7 @@
         <module>yefeng-order</module>
         <module>yefeng-model</module>
         <module>yefeng-api</module>
+        <module>yefeng-geteway</module>
     </modules>
 
     <properties>

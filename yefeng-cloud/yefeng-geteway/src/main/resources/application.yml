@@ -1,0 +1,17 @@
+server:
+  port: 80
+spring:
+  application:
+    name: yefeng-gateway
+  cloud:
+    nacos:
+      discovery:
+        server-addr: ${spring.cloud.nacos.discovery.server-addr}
+        namespace: 20220411 # 这里的namespace 对应 nacos 命名空间的id
+
+    gateway:
+      routes:
+        - id: yefeng-user				# 路由id，可以自定义，只要唯一即可
+          uri: lb://yefeng-user		    # 路由的目标地址 lb就是负载均衡，后面跟服务名称
+          predicates:
+            - Path=/api/user/**			    # 这个是按照路径匹配，只要以/user/开头就符合要求
