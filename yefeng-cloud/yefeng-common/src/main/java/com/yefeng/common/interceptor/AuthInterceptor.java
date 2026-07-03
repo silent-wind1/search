@@ -17,7 +17,7 @@ public class AuthInterceptor implements HandlerInterceptor {
 
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         // 1.获取请求头中的用户信息
-        String userInfo = request.getHeader("user-info");
+        String userInfo = request.getHeader("token");
         // 2.判断是否为空
         if (StrUtil.isNotBlank(userInfo)) {
             // 不为空，保存到ThreadLocal

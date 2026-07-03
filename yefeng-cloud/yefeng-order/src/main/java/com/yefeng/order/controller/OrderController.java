@@ -1,5 +1,6 @@
 package com.yefeng.order.controller;
 
+import com.yefeng.common.config.UserThreadLocal;
 import com.yefeng.model.entity.Order;
 import com.yefeng.order.service.OrderService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -19,9 +20,9 @@ public class OrderController {
     private OrderService orderService ;
 
     @GetMapping(value = "/findOrderByOrderId/{orderId}")
-    public Order findOrderByOrderId(@PathVariable Long orderId, HttpServletRequest request) {
-        String token = request.getHeader("token");
-        log.info("token:{}", token);
+    public Order findOrderByOrderId(@PathVariable Long orderId) {
+        Long user = UserThreadLocal.getUser();
+        log.info("user:{}", user);
         return orderService.findOrderByOrderId(orderId) ;
     }
 

@@ -34,18 +34,23 @@ public class AuthorizationFilter implements GlobalFilter, Ordered {
         if(list != null && !list.isEmpty()){
             token = list.getFirst();
         } else {
-            token = "token";
+            token = "123456";
         }
 
         // 鉴权通过放行
-        request.mutate().header("token", token);
-        exchange.mutate().request(request);
+        // ServerHttpRequest 是不可变的，必须通过 builder.build() 创建新实例
+        ServerHttpRequest mutatedRequest = request.mutate()
+                .header("token", token)
+                .build();
+        ServerWebExchange mutatedExchange = exchange.mutate()
+                .request(mutatedRequest)
+                .build();
 
-        return chain.filter(exchange);
+        return chain.filter(mutatedExchange);
     }
 
     @Override
     public int getOrder() {
-        return 0;
+        return -100;
     }
 }

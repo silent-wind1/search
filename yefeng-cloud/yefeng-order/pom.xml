@@ -55,6 +55,12 @@
             <artifactId>yefeng-api</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.yefeng</groupId>
+            <artifactId>yefeng-common</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
     <build>
