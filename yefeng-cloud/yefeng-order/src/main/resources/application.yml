@@ -9,18 +9,21 @@ spring:
     url: jdbc:mysql://localhost:3306/yefeng_orders?useSSL=false&serverTimezone=Asia/Shanghai&characterEncoding=utf8
     username: root
     password: 031214t+
-  redis:
-    host: localhost
-    port: 6379
-    password:
-    database: 0
-    timeout: 3000ms
   cloud:
     nacos:
       discovery:
         server-addr: ${spring.cloud.nacos.discovery.server-addr}
         namespace: 20220411 # 这里的namespace 对应 nacos 命名空间的id
         cluster-name: SZ # 配置服务所属集群
+      config:
+        server-addr: ${spring.cloud.nacos.discovery.server-addr}
+        namespace: 20220411
+        file-extension: yaml
+  # 注意在这里配置 Nacos配置中心的文件
+  config:
+    import:
+      - nacos:order-service.yaml
+      - nacos:common.yaml
 
     loadbalancer:
       nacos: # 集成nacos的负载均衡算法
@@ -41,3 +44,6 @@ mybatis:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
   type-aliases-package: com.yefeng.order.entity
   mapper-locations: classpath:/mapper/*.xml
+
+# 测试配置文件和Nacos配置中心哪个权重更高，答案是Nacos配置中心
+name: 12345
