@@ -12,4 +12,9 @@
         SELECT <include refid="base_field"></include> FROM tb_order WHERE id = #{orderId}
     </select>
 
+    <!-- 查询所有订单 ID（用于布隆过滤器初始化） -->
+    <select id="findAllOrderIds" resultType="java.lang.Long">
+        SELECT id FROM tb_order
+    </select>
+
 </mapper>

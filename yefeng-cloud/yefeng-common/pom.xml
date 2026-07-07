@@ -42,6 +42,19 @@
             <version>5.8.44</version>
         </dependency>
 
+        <!-- Redisson - Redis 客户端，提供分布式布隆过滤器等高级功能 -->
+        <dependency>
+            <groupId>org.redisson</groupId>
+            <artifactId>redisson-spring-boot-starter</artifactId>
+            <version>3.24.3</version>
+        </dependency>
+
+        <!-- Lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+
     </dependencies>
 
 </project>
