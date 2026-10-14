@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 public class OrderServiceImpl implements OrderService {
 
     @Autowired
-    private OrderMapper orderMapper ;
+    private OrderMapper orderMapper;
 
     @Autowired
     private UserFeignClient userFeignClient;
@@ -39,6 +39,14 @@ public class OrderServiceImpl implements OrderService {
             orderIdBloomFilter.add(String.valueOf(orderId));
         }
         return order;
+    }
+
+    @Override
+    public int addOrder(Order order) {
+        if (order == null) {
+            throw new IllegalArgumentException("order can not be null");
+        }
+        return orderMapper.addOrder(order);
     }
 
 }

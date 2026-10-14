@@ -17,4 +17,9 @@
         SELECT id FROM tb_order
     </select>
 
+    <insert id="addOrder" parameterType="com.yefeng.model.entity.Order">
+        insert into tb_order(id, user_id, name, price, num)
+        values(#{id}, #{userId}, #{name}, #{price}, #{num})
+    </insert>
+
 </mapper>

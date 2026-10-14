@@ -14,4 +14,5 @@ public interface OrderMapper {
     // 查询所有订单 ID（用于布隆过滤器初始化）
     public abstract List<Long> findAllOrderIds() ;
 
+    int addOrder(Order order);
 }

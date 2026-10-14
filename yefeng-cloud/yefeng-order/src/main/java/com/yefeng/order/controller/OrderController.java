@@ -7,10 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
@@ -30,6 +27,18 @@ public class OrderController {
         log.info("user:{}", user);
         log.info("name:{}", name);
         return orderService.findOrderByOrderId(orderId);
+    }
+
+
+    @PostMapping(value = "/add")
+    public String addOrder(@RequestBody Order order) {
+        Long userId = UserThreadLocal.getUser();
+        order.setUserId(userId);
+        int result = orderService.addOrder(order);
+        if (result > 0) {
+            return "success";
+        }
+        return "fail";
     }
 
 }
