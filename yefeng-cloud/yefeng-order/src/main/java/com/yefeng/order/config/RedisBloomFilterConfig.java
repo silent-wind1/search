@@ -1,9 +1,9 @@
 package com.yefeng.order.config;
 
+import jakarta.annotation.Resource;
 import org.redisson.api.RBloomFilter;
 import org.redisson.api.RedissonClient;
 import org.redisson.client.codec.StringCodec;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -22,7 +22,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RedisBloomFilterConfig {
 
-    @Autowired
+    @Resource
     private RedissonClient redissonClient;
 
     /**
@@ -34,12 +34,9 @@ public class RedisBloomFilterConfig {
      */
     @Bean
     public RBloomFilter<String> orderIdBloomFilter() {
-        RBloomFilter<String> filter = redissonClient.getBloomFilter(
-                "order:bloom",
-                StringCodec.INSTANCE
-        );
+        RBloomFilter<String> filter = redissonClient.getBloomFilter("order:bloom",StringCodec.INSTANCE);
         // 幂等初始化：预期 10000 元素，1% 误判率
-        filter.tryInit(10_000L, 0.01);
+        filter.tryInit(3L, 0.01);
         return filter;
     }
 

@@ -45,8 +45,7 @@ public class RedisBloomFilterInitializer {
         }
 
         long afterCount = orderIdBloomFilter.count();
-        log.info("Redisson 布隆过滤器 [order:bloom] 同步完成: "
-                        + "已有 {} 个, DB 共 {} 个, 新增 {} 个, 当前共 {} 个",
+        log.info("Redisson 布隆过滤器 [order:bloom] 同步完成: 已有 {} 个, DB 共 {} 个, 新增 {} 个, 当前共 {} 个",
                 beforeCount, orderIds.size(), newCount, afterCount);
     }
 

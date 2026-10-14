@@ -55,21 +55,16 @@ public class SearchFacade {
             CompletableFuture<Page<UserVO>> userTask = CompletableFuture.supplyAsync(() -> {
                 UserQueryRequest userQueryRequest = new UserQueryRequest();
                 userQueryRequest.setUserName(searchText);
-                Page<UserVO> userVOPage = userService.listUserVOByPage(userQueryRequest);
-                return userVOPage;
+                return userService.listUserVOByPage(userQueryRequest);
             });
 
             CompletableFuture<Page<PostVO>> postTask = CompletableFuture.supplyAsync(() -> {
                 PostQueryRequest postQueryRequest = new PostQueryRequest();
                 postQueryRequest.setSearchText(searchText);
-                Page<PostVO> postVOPage = postService.listPostVOByPage(postQueryRequest, request);
-                return postVOPage;
+                return postService.listPostVOByPage(postQueryRequest, request);
             });
 
-            CompletableFuture<Page<Picture>> pictureTask = CompletableFuture.supplyAsync(() -> {
-                Page<Picture> picturePage = pictureService.searchPicture(searchText, pageNum, pageSize);
-                return picturePage;
-            });
+            CompletableFuture<Page<Picture>> pictureTask = CompletableFuture.supplyAsync(() -> pictureService.searchPicture(searchText, pageNum, pageSize));
 
             CompletableFuture.allOf(userTask, postTask, pictureTask).join();
             try {
