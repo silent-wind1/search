@@ -11,6 +11,7 @@ import com.yefeng.exception.ThrowUtils;
 import com.yefeng.mapper.PostFavourMapper;
 import com.yefeng.mapper.PostMapper;
 import com.yefeng.mapper.PostThumbMapper;
+import com.yefeng.model.dto.post.PostAddLikeDTO;
 import com.yefeng.model.dto.post.PostEsDTO;
 import com.yefeng.model.dto.post.PostQueryRequest;
 import com.yefeng.model.entity.Post;
@@ -22,6 +23,8 @@ import com.yefeng.model.vo.UserVO;
 import com.yefeng.service.PostService;
 import com.yefeng.service.UserService;
 import com.yefeng.utils.SqlUtils;
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -36,6 +39,7 @@ import org.springframework.data.elasticsearch.core.SearchHit;
 import org.springframework.data.elasticsearch.core.SearchHits;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -51,19 +55,18 @@ import java.util.stream.Collectors;
  */
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements PostService {
 
-    @Resource
-    private UserService userService;
+    private final UserService userService;
 
-    @Resource
-    private PostThumbMapper postThumbMapper;
+    private final PostThumbMapper postThumbMapper;
 
-    @Resource
-    private PostFavourMapper postFavourMapper;
+    private final PostFavourMapper postFavourMapper;
 
-    @Resource
-    private ElasticsearchRestTemplate elasticsearchRestTemplate;
+    private final ElasticsearchRestTemplate elasticsearchRestTemplate;
+
+    private final StringRedisTemplate redisTemplate;
 
     @Override
     public void validPost(Post post, boolean add) {
@@ -311,6 +314,33 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
         return this.getPostVOPage(postPage, request);
     }
 
+    @Override
+    public void addLikePost(PostAddLikeDTO postAddLikeDTO, HttpServletRequest request) {
+        User user = userService.getLoginUser(request);
+        boolean success = postAddLikeDTO.getLiked() ? like(postAddLikeDTO, user.getId()) : unlike(postAddLikeDTO, user.getId());
+        if (!success) {
+            return;
+        }
+        Long likesTime = redisTemplate.opsForSet().size("likes:set:post" + postAddLikeDTO.getPostId());
+        if (likesTime == null) {
+            return;
+        }
+        // 缓存点赞总数到Redis中
+        redisTemplate.opsForZSet().add("likes:times:type:post", "post", likesTime);
+    }
+
+
+    private Boolean like(PostAddLikeDTO postAddLikeDTO, Long userId) {
+        String key = "likes:set:post" + postAddLikeDTO.getPostId();
+        Long result = redisTemplate.opsForSet().add(key, userId.toString());
+        return result != null && result > 0;
+    }
+
+    private Boolean unlike(PostAddLikeDTO postAddLikeDTO, Long userId) {
+        String key = "likes:set:post" + postAddLikeDTO.getPostId();
+        Long result = redisTemplate.opsForSet().remove(key, userId.toString());
+        return result != null && result > 0;
+    }
 }
 
 

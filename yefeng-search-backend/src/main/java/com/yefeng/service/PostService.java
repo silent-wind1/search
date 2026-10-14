@@ -3,6 +3,7 @@ package com.yefeng.service;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.yefeng.model.dto.post.PostAddLikeDTO;
 import com.yefeng.model.dto.post.PostQueryRequest;
 import com.yefeng.model.entity.Post;
 import com.yefeng.model.vo.PostVO;
@@ -60,4 +61,6 @@ public interface PostService extends IService<Post> {
     Page<PostVO> getPostVOPage(Page<Post> postPage, HttpServletRequest request);
 
     Page<PostVO> listPostVOByPage(PostQueryRequest postQueryRequest, HttpServletRequest request);
+
+    void addLikePost(PostAddLikeDTO postAddLikeDTO, HttpServletRequest request);
 }

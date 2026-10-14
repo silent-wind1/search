@@ -10,10 +10,7 @@ import com.yefeng.common.ResultUtils;
 import com.yefeng.constant.UserConstant;
 import com.yefeng.exception.BusinessException;
 import com.yefeng.exception.ThrowUtils;
-import com.yefeng.model.dto.post.PostAddRequest;
-import com.yefeng.model.dto.post.PostEditRequest;
-import com.yefeng.model.dto.post.PostQueryRequest;
-import com.yefeng.model.dto.post.PostUpdateRequest;
+import com.yefeng.model.dto.post.*;
 import com.yefeng.model.entity.Post;
 import com.yefeng.model.entity.User;
 import com.yefeng.model.vo.PostVO;
@@ -255,6 +252,16 @@ public class PostController {
         }
         boolean result = postService.updateById(post);
         return ResultUtils.success(result);
+    }
+
+    /**
+     * 用户点赞
+     * @param postAddLikeDTO 点赞dto
+     * @return
+     */
+    @PostMapping("/like")
+    public void addLikePost(@RequestBody PostAddLikeDTO postAddLikeDTO, HttpServletRequest request) {
+        postService.addLikePost(postAddLikeDTO, request);
     }
 
 }

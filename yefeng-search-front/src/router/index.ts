@@ -1,5 +1,6 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from "vue-router";
 import IndexPage from "../views/IndexPage.vue";
+import DetailPage from "@/components/DetailPage.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -9,6 +10,10 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: "/:category",
     component: IndexPage,
+  },
+  {
+    path: "/detail/:id",
+    component: DetailPage,
   },
 ];
 
